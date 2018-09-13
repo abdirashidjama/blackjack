@@ -28,5 +28,14 @@ public class CardCompareTest extends TestCase {
 		}};
 		assertEquals(true, solver.betterHand(playerhand, dealerhand));
 	}
+	
+	public void testHandValue() {
+		Game solver = new Game();
+		ArrayList<String> cards = new ArrayList<String>() {{
+			add("H9");
+			add("AK");
+		}};
+		assertEquals(19,solver.handValue(cards));
+	}
 
 }
