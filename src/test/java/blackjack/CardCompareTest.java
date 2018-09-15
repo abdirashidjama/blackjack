@@ -10,23 +10,32 @@ public class CardCompareTest extends TestCase {
 		ArrayList<String> cards = new ArrayList<String>() {{
 			add("H9");
 			add("AK");
-			add("S6");
-				
+			//add("S6");	
 		}};
-		assertEquals(true, solver.checkBust(cards));
+		Stack deck = new Stack();
+		deck.push("S6");
+		solver.setDeck(deck);
+		solver.hit();
+		assertEquals(null, solver.handValue()); // bust hands are null
 	}
 	
-	public void testBetterHand() {
+	public void testBetterHand() { //sees if dealer has a better hand then player
 		Game solver = new Game();
-		ArrayList<String> playerhand = new ArrayList<String>() {{
-			add("H8");
-			add("AK");
-		}};
-		ArrayList<String> dealerhand = new ArrayList<String>() {{
-			add("D9");
-			add("HJ");
-		}};
-		assertEquals(true, solver.betterHand(playerhand, dealerhand));
+		Stack deck = new Stack();
+		deck.push("H8");
+		deck.push("A8");
+		deck.push("S2");
+		deck.push("H9");
+		deck.push("AK");
+		solver.hit();
+		solver.hit();
+		solver.hit();
+		solver.stand();  //player hits thrice has a total of 18
+		assertEquals(18, solver.handValue()); //test to see if player hand held and is 18
+		solver.hit();
+		solver.hit();
+		asserEquals(true, solver.betterhand()); //dealer hand is 19 test to see if better hand function shows dealer is equal or higher. 
+		
 	}
 	
 	public void testHandValue() {
@@ -35,7 +44,20 @@ public class CardCompareTest extends TestCase {
 			add("H9");
 			add("AK");
 		}};
-		assertEquals(19,solver.handValue(cards));
+		Stack deck = new Stack();
+		deck.push("H9");
+		deck.push("AK");
+		solver.setDeck(deck);
+		solver.hit();
+		solver.hit();
+		assertEquals(19,solver.handValue(cards)); //regular hand test
 	}
+	
+	public void test52cards(){
+		Game solver = new Game();
+		assertEquals(52, solver.getDeck().size()); //testing list to make sure it has 52 cards
+	}
+	
+	
 
 }
