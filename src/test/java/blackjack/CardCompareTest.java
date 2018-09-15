@@ -10,7 +10,6 @@ public class CardCompareTest extends TestCase {
 		ArrayList<String> cards = new ArrayList<String>() {{
 			add("H9");
 			add("AK");
-			//add("S6");	
 		}};
 		Stack deck = new Stack();
 		deck.push("S6");
@@ -27,6 +26,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("S2");
 		deck.push("H9");
 		deck.push("AK");
+		solver.setDeck(deck);
 		solver.hit();
 		solver.hit();
 		solver.hit();
@@ -58,6 +58,16 @@ public class CardCompareTest extends TestCase {
 		assertEquals(52, solver.getDeck().size()); //testing list to make sure it has 52 cards
 	}
 	
+	public void testcurrentTurn(){ //test if stand function changes whose turn it is
+		Game solver = new Game();
+		assertEquals("player", solver.getcurrentTurn());  //initially should be player
+		Stack deck = new Stack();
+		deck.push("H8");
+		solver.setDeck(deck);
+		solver.hit();
+		solver.stand()
+		assertEquals("dealer", solver.getcurrentTurn());  // should change to dealer after hold
+	}
 	
 
 }
