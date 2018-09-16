@@ -232,6 +232,32 @@ public class CardCompareTest extends TestCase {
 		assertEquals("HJ S6 HA H2", solver.displayDealerHand());
 	}
 	
+	public void testPlayerBlackJack() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("H2");
+		deck.push("S7");
+		deck.push("SA");
+		deck.push("HK");
+		solver.setDeck(deck);
+		solver.setHands('p');
+		solver.setHands('d');
+		assertEquals("player", solver.checkWin());
+	}
+	
+	public void testDealerBlackJack() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("SA");
+		deck.push("HK");
+		deck.push("H2");
+		deck.push("S7");
+		solver.setDeck(deck);
+		solver.setHands('p');
+		solver.setHands('d');
+		assertEquals("dealer", solver.checkWin());
+	}
+	
 	public void testBetterHand() { //sees if dealer has a better hand then player
 		Game solver = new Game();
 		Stack deck = new Stack();
