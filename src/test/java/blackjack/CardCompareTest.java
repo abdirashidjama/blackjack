@@ -5,6 +5,29 @@ import java.util.*;
 
 
 public class CardCompareTest extends TestCase {
+	public void testhit() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("H7");
+		solver.setDeck(deck);
+		solver.hit();
+		assertEquals(7, solver.handValue());	
+	}
+	public void testmultihit() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("A2");
+		deck.push("A3");
+		deck.push("A4");
+		deck.push("A5");
+		solver.setDeck(deck);
+		solver.hit();
+		solver.hit();
+		solver.hit();
+		solver.hit();
+		assertEquals(14, solver.handValue());	
+	}
+	
 	public void testCheckBust() {
 		Game solver = new Game();
 		ArrayList<String> cards = new ArrayList<String>() {{
@@ -65,9 +88,11 @@ public class CardCompareTest extends TestCase {
 		deck.push("H8");
 		solver.setDeck(deck);
 		solver.hit();
-		solver.stand()
+		solver.stand();
 		assertEquals("dealer", solver.getcurrentTurn());  // should change to dealer after hold
+	
 	}
+	
 	
 
 }
