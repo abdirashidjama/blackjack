@@ -35,6 +35,19 @@ public class CardCompareTest extends TestCase {
 		assertEquals("A3 ?", solver.displayDealerHand());
 	}
 	
+	public void testPlayerEndTurnDisplay(){
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("A2");
+		deck.push("A3");
+		deck.push("A4");
+		deck.push("A5");
+		solver.setCards('p');
+		solver.hit();
+		player.stand();
+		assertEquals("A5 A4 A3", solver.displayPlayerHand());
+	}
+	
 	public void testhit() {
 		Game solver = new Game();
 		Stack deck = new Stack();
@@ -166,6 +179,8 @@ public class CardCompareTest extends TestCase {
 		assertEquals("player", solver.checkWin());
 	}
 	
+	
+	
 	public void testBetterHand() { //sees if dealer has a better hand then player
 		Game solver = new Game();
 		Stack deck = new Stack();
@@ -183,7 +198,6 @@ public class CardCompareTest extends TestCase {
 		solver.hit();
 		solver.hit();
 		asserEquals(true, solver.betterhand()); //dealer hand is 19 test to see if better hand function shows dealer is equal or higher. 
-		
 	}
 	
 	public void testHandValue() {
