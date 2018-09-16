@@ -3,7 +3,10 @@ package blackjack;
 import junit.framework.TestCase;
 import java.util.*;
 
-
+/*
+ * The method for hitting cards during game will also be the same method used to pass
+ * out cards initially to player and to the dealer
+ */
 public class CardCompareTest extends TestCase {
 	public void testhit() {
 		Game solver = new Game();
@@ -26,6 +29,13 @@ public class CardCompareTest extends TestCase {
 		solver.hit();
 		solver.hit();
 		assertEquals(14, solver.handValue());	
+	}
+	
+	public void teststand(){
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("A2");
+		solver.setDeck(deck);
 	}
 	
 	public void testCheckBust() {
