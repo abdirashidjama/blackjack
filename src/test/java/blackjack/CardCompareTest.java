@@ -8,6 +8,30 @@ import java.util.*;
  * out cards initially to player and to the dealer
  */
 public class CardCompareTest extends TestCase {
+	
+	public void testInitPlayerDisplay() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("A2");
+		deck.push("A3");
+		deck.push("A4");
+		deck.push("A5");
+		solver.setCards('p');
+		assertEquals("A5 A4", solver.displayPlayerHand());
+	}
+	
+	public void testInitDealerDisplay() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("A2");
+		deck.push("A3");
+		deck.push("A4");
+		deck.push("A5");
+		solver.setCards("p");
+		solver.setCards("d");
+		assertEquals("A3 ?", solver.displayDealerHand());
+	}
+	
 	public void testhit() {
 		Game solver = new Game();
 		Stack deck = new Stack();
@@ -66,6 +90,42 @@ public class CardCompareTest extends TestCase {
 		assertEquals(52, solver.getDeck().size()); //testing list to make sure it has 52 cards
 	}
 	
+	public void testshuffle() {
+		Game solver = new Game();
+		String suite = null;
+		String value;
+		String card;
+		Stack deck = new Stack();
+		for (int i=0; i<=3; i++) {
+			switch(i) {
+			case 0: suite = "H";
+			break;
+			case 1: suite = "S";
+			break;
+			case 2: suite = "D";
+			break;
+			case 3: suite = "C";
+			break;
+			}
+			for (int j=1; j<=13; j++) {
+				switch(j) {
+				case 1: value = "A";
+				case 11: value = "J";
+				break;
+				case 12: value = "Q";
+				break;
+				case 13: value = "K";
+				default: value = String.valueOf(j);
+				break;
+				}
+				card = suite + value;
+				deck.push(card);
+			}
+		}
+		assertEquals(deck, solver.shuffle(deck));
+		
+	}
+	
 	public void testCheckBust() {
 		Game solver = new Game();
 		ArrayList<String> cards = new ArrayList<String>() {{
@@ -78,31 +138,6 @@ public class CardCompareTest extends TestCase {
 		solver.hit();
 		assertEquals(null, solver.handValue()); // bust hands are null
 	}
-	
-	public void testInitPlayerDisplay() {
-		Game solver = new Game();
-		Stack deck = new Stack();
-		deck.push("A2");
-		deck.push("A3");
-		deck.push("A4");
-		deck.push("A5");
-		solver.setCards('p');
-		assertEquals("A5 A4", solver.displayPlayerHand());
-	}
-	
-	public void testInitDealerDisplay() {
-		Game solver = new Game();
-		Stack deck = new Stack();
-		deck.push("A2");
-		deck.push("A3");
-		deck.push("A4");
-		deck.push("A5");
-		solver.setCards("p");
-		solver.setCards("d");
-		assertEquals("A3 A2", solver.displayDealerHand());
-	}
-	
-	
 	
 	public void testBetterHand() { //sees if dealer has a better hand then player
 		Game solver = new Game();
