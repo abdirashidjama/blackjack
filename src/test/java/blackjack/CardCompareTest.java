@@ -4,10 +4,13 @@ import junit.framework.TestCase;
 import java.util.*;
 
 /*
- * The method for hitting cards during game will also be the same method used to pass
- * out cards initially to player and to the dealer
+ * For the purpose of testing and file input options deck can be set and hiting aswell as
+ * deck settin
  */
 public class CardCompareTest extends TestCase {
+	public void testConsoleInput() {
+		public void
+	}
 	
 	public void testInitPlayerDisplay() {
 		Game solver = new Game();
@@ -122,21 +125,45 @@ public class CardCompareTest extends TestCase {
 				deck.push(card);
 			}
 		}
-		assertEquals(deck, solver.shuffle(deck));
-		
+		assertEquals(deck, solver.shuffle(deck));	
 	}
 	
-	public void testCheckBust() {
+	public void testPlayerBust() {
 		Game solver = new Game();
 		ArrayList<String> cards = new ArrayList<String>() {{
 			add("H9");
 			add("AK");
 		}};
+		
 		Stack deck = new Stack();
 		deck.push("S6");
+		deck.push("H9");
+		deck.push("AK");
+		deck.push("AK");
+		deck.push("S9");
 		solver.setDeck(deck);
+		solver.setHands('p');
+		solver.setHands('d');
 		solver.hit();
-		assertEquals(null, solver.handValue()); // bust hands are null
+		//assertEquals(null, solver.handValue()); // bust hands are null
+		assertEquals("dealer", solver.checkWin());
+	}
+	
+	public void testDealerBust() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("S6");
+		deck.push("H9");
+		deck.push("AK");
+		deck.push("AK");
+		deck.push("S9");
+		solver.setDeck(deck);
+		solver.setHands('p');
+		solver.setHands('d');
+		solver.hold();
+		solver.hit();
+		//assertEquals(null, solver.handValue()); // bust hands are null
+		assertEquals("player", solver.checkWin());
 	}
 	
 	public void testBetterHand() { //sees if dealer has a better hand then player
@@ -161,11 +188,9 @@ public class CardCompareTest extends TestCase {
 	
 	public void testHandValue() {
 		Game solver = new Game();
-		ArrayList<String> cards = new ArrayList<String>() {{
-			add("H9");
-			add("AK");
-		}};
 		Stack deck = new Stack();
+		deck.push("H9");
+		deck.push("AK");
 		deck.push("H9");
 		deck.push("AK");
 		solver.setDeck(deck);
