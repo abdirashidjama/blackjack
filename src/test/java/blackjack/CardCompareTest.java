@@ -79,7 +79,7 @@ public class CardCompareTest extends TestCase {
 		assertEquals(null, solver.handValue()); // bust hands are null
 	}
 	
-	public void testplayerCards() {
+	public void testInitPlayerDisplay() {
 		Game solver = new Game();
 		Stack deck = new Stack();
 		deck.push("A2");
@@ -88,6 +88,18 @@ public class CardCompareTest extends TestCase {
 		deck.push("A5");
 		solver.setCards('p');
 		assertEquals("A5 A4", solver.displayPlayerHand());
+	}
+	
+	public void testInitDealerDisplay() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("A2");
+		deck.push("A3");
+		deck.push("A4");
+		deck.push("A5");
+		solver.setCards("p");
+		solver.setCards("d");
+		assertEquals("A3 A2", solver.displayDealerHand());
 	}
 	
 	
