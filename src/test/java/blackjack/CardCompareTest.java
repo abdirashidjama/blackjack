@@ -188,13 +188,49 @@ public class CardCompareTest extends TestCase {
 		solver.setDeck(deck);
 		solver.setHands('p');
 		solver.setHands('d');
-		solver.hold();
+		solver.stand();
 		solver.hit();
 		//assertEquals(null, solver.handValue()); // bust hands are null
 		assertEquals("player", solver.checkWin());
 	}
 	
+	public void testDealerUnder16() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("S3");
+		deck.push("H2");
+		deck.push("S4");
+		deck.push("HJ");
+		deck.push("AK");
+		deck.push("S9");
+		solver.setDeck(deck);
+		solver.setHands('p');
+		solver.setHands('d');
+		solver.stand();
+		solver.dealerPlay();
+		solver.dealerPlay();
+		solver.stand();
+		assertEquals("HJ S4 H2 S3", solver.displayDealerHand());
+	}
 	
+	public void testDealerSoft17() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("H2");
+		deck.push("HA");
+		deck.push("S6");
+		deck.push("HJ");
+		deck.push("AK");
+		deck.push("S9");
+		solver.setDeck(deck);
+		solver.setHands('p');
+		solver.setHands('d');
+		solver.stand();
+		solver.hit();
+		solver.dealerPlay();
+		solver.stand();
+		assertEquals("HJ S6 HA H2", solver.displayDealerHand());
+	}
 	
 	public void testBetterHand() { //sees if dealer has a better hand then player
 		Game solver = new Game();
