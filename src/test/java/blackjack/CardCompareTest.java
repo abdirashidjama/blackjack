@@ -44,8 +44,23 @@ public class CardCompareTest extends TestCase {
 		deck.push("A5");
 		solver.setCards('p');
 		solver.hit();
-		player.stand();
+		solver.stand();
 		assertEquals("A5 A4 A3", solver.displayPlayerHand());
+	}
+	
+	public void testEndTurnDealerDisplay() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("S2");
+		deck.push("A2");
+		deck.push("A3");
+		deck.push("A4");
+		deck.push("A5");
+		solver.setCards("p");
+		solver.setCards("d");
+		solver.hit();
+		solver.stand();
+		assertEquals("A3 A2 S2", solver.displayDealerHand());
 	}
 	
 	public void testhit() {
