@@ -414,5 +414,37 @@ public class CardCompareTest extends TestCase {
 		assertEquals("dealer", solver.getcurrentTurn());  // should change to dealer after hold
 	
 	}
+	
+	public void testPlayerWinsByScore() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("C9");
+		deck.push("S9");
+		deck.push("S10");
+		deck.push("H9");
+		solver.setDeck(deck);
+		solver.setHands("p");
+		solver.sethands("d");
+		solver.stand();
+		solver.stand();
+		assertEquals("player",solver.checkWin());
+	}
+	
+	public void testDealerWinsByScore() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("S10");
+		deck.push("H9");
+		deck.push("C9");
+		deck.push("S9");
+		solver.setDeck(deck);
+		solver.setHands("p");
+		solver.sethands("d");
+		solver.stand();
+		solver.stand();
+		assertEquals("dealer",solver.checkWin());
+	} 
+	
+	
 
 }
