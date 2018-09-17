@@ -242,7 +242,7 @@ public class CardCompareTest extends TestCase {
 		solver.setDeck(deck);
 		solver.setHands('p');
 		solver.setHands('d');
-		assertEquals("player", solver.checkWin());
+		assertEquals("player blackjack", solver.checkWin());
 	}
 	
 	public void testDealerBlackJack() {
@@ -255,7 +255,7 @@ public class CardCompareTest extends TestCase {
 		solver.setDeck(deck);
 		solver.setHands('p');
 		solver.setHands('d');
-		assertEquals("dealer", solver.checkWin());
+		assertEquals("dealer blackjack", solver.checkWin());
 	}
 	
 	public void testBetterHand() { //sees if dealer has a better hand then player
@@ -277,17 +277,35 @@ public class CardCompareTest extends TestCase {
 		asserEquals(true, solver.betterhand()); //dealer hand is 19 test to see if better hand function shows dealer is equal or higher. 
 	}
 	
-	public void testHandValue() {
+	public void testPlayerScore() {
 		Game solver = new Game();
 		Stack deck = new Stack();
+		deck.push("C8");
+		deck.push("S10");
+		deck.push("C2");
 		deck.push("H9");
-		deck.push("AK");
-		deck.push("H9");
-		deck.push("AK");
+		deck.push("A5");
 		solver.setDeck(deck);
+		solver.setHands("p");
+		solver.sethands("d");
 		solver.hit();
+		assertEquals(16,solver.getPlayerScore());
+	}
+	
+	public void testDealerScore() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("S2");
+		deck.push("C8");
+		deck.push("S10");
+		deck.push("H9");
+		deck.push("A5");
+		solver.setDeck(deck);
+		solver.setHands("p");
+		solver.sethands("d");
+		solver.stand();
 		solver.hit();
-		assertEquals(19,solver.handValue(cards)); //regular hand test
+		assertEquals(20,solver.getDealerScore()); 
 	}
 	
 	
