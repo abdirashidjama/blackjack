@@ -9,7 +9,13 @@ import java.util.*;
  */
 public class CardCompareTest extends TestCase {
 	public void testConsoleInput() {
-		public void
+		Game solver = new Game();
+		solver.start('c');
+	}
+	
+	public void testFileInput() {
+		Game solver = new Game();
+		assertFalse(null,solver.start('f'));
 	}
 	
 	public void testInitPlayerDisplay() {
@@ -397,8 +403,6 @@ public class CardCompareTest extends TestCase {
 		assertEquals(10, solver.getPlayerScore()); //should be 10 from J
 	}
 	
-	
-	
 	public void testcurrentTurn(){ //test if stand function changes whose turn it is
 		Game solver = new Game();
 		assertEquals("player", solver.getcurrentTurn());  //initially should be player
@@ -410,7 +414,5 @@ public class CardCompareTest extends TestCase {
 		assertEquals("dealer", solver.getcurrentTurn());  // should change to dealer after hold
 	
 	}
-	
-	
 
 }
