@@ -5,7 +5,7 @@ import java.util.*;
 
 /*
  * For the purpose of testing and file input options deck can be set and hiting aswell as
- * deck settin
+ * deck setting
  */
 public class CardCompareTest extends TestCase {
 	public void testConsoleInput() {
@@ -25,7 +25,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("A3");
 		deck.push("A4");
 		deck.push("A5");
-		solver.setCards('p');
+		solver.setHand("p");
 		assertEquals("A5 A4", solver.displayPlayerHand());
 	}
 	
@@ -36,8 +36,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("A3");
 		deck.push("A4");
 		deck.push("A5");
-		solver.setCards("p");
-		solver.setCards("d");
+		solver.setHand("p");
+		solver.setHand("d");
 		assertEquals("A3 ?", solver.displayDealerHand());
 	}
 	
@@ -48,7 +48,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("A3");
 		deck.push("A4");
 		deck.push("A5");
-		solver.setCards('p');
+		solver.setHand('p');
 		solver.hit();
 		solver.stand();
 		assertEquals("A5 A4 A3", solver.displayPlayerHand());
@@ -62,8 +62,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("A3");
 		deck.push("A4");
 		deck.push("A5");
-		solver.setCards("p");
-		solver.setCards("d");
+		solver.setHand("p");
+		solver.setHand("d");
 		solver.hit();
 		solver.stand();
 		assertEquals("A3 A2 S2", solver.displayDealerHand());
@@ -115,8 +115,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("A4");
 		deck.push("A5");
 		solver.setDeck(deck);
-		solver.setHands('p');
-		solver.setHands('d');
+		solver.setHand('p');
+		solver.setHand('d');
 		solver.stand();
 		assertEquals("dealer", solver.getcurrentTurn()); //turn should change to dealer after stand
 	}
@@ -176,8 +176,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("CK");
 		deck.push("S9");
 		solver.setDeck(deck);
-		solver.setHands('p');
-		solver.setHands('d');
+		solver.setHand('p');
+		solver.setHand('d');
 		solver.hit();
 		//assertEquals(null, solver.handValue()); // bust hands are null
 		assertEquals("dealer", solver.checkWin());
@@ -192,8 +192,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("DK");
 		deck.push("S9");
 		solver.setDeck(deck);
-		solver.setHands('p');
-		solver.setHands('d');
+		solver.setHand('p');
+		solver.setHand('d');
 		solver.stand();
 		solver.hit();
 		//assertEquals(null, solver.handValue()); // bust hands are null
@@ -210,8 +210,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("DK");
 		deck.push("S9");
 		solver.setDeck(deck);
-		solver.setHands('p');
-		solver.setHands('d');
+		solver.setHand('p');
+		solver.setHand('d');
 		solver.stand();
 		solver.dealerPlay();
 		solver.dealerPlay();
@@ -229,8 +229,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("CK");
 		deck.push("S9");
 		solver.setDeck(deck);
-		solver.setHands('p');
-		solver.setHands('d');
+		solver.setHand('p');
+		solver.setHand('d');
 		solver.stand();
 		solver.hit();
 		solver.dealerPlay();
@@ -246,8 +246,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("SA");
 		deck.push("HK");
 		solver.setDeck(deck);
-		solver.setHands('p');
-		solver.setHands('d');
+		solver.setHand('p');
+		solver.setHand('d');
 		assertEquals("player blackjack", solver.checkWin());
 	}
 	
@@ -292,8 +292,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("H9");
 		deck.push("A5");
 		solver.setDeck(deck);
-		solver.setHands("p");
-		solver.sethands("d");
+		solver.setHand("p");
+		solver.sethand("d");
 		solver.hit();
 		assertEquals(16,solver.getPlayerScore());
 	}
@@ -323,8 +323,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("S7");
 		deck.push("HA");
 		solver.setDeck(deck);
-		solver.setHands("p");
-		solver.sethands("d");
+		solver.setHand("p");
+		solver.sethand("d");
 		assertEquals(18,solver.getPlayerScore()); //ace must be 11 to get 18
 	}
 	
@@ -337,8 +337,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("S10");
 		deck.push("H8");
 		solver.setDeck(deck);
-		solver.setHands("p");
-		solver.sethands("d");
+		solver.setHand("p");
+		solver.sethand("d");
 		solver.hit();
 		assertEquals(19,solver.getPlayerScore()); //ace must be one to get 19 otherwise bust 
 	}
@@ -352,8 +352,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("S8");
 		deck.push("HA");
 		solver.setDeck(deck);
-		solver.setHands("p");
-		solver.sethands("d");
+		solver.setHand("p");
+		solver.sethand("d");
 		solver.hit();
 		assertEquals(16,solver.getPlayerScore()); //score should be 16 so theres no bust A goes 11 then 1
 	}
@@ -368,8 +368,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("S10");
 		deck.push("H8");
 		solver.setDeck(deck);
-		solver.setHands("p");
-		solver.sethands("d");
+		solver.setHand("p");
+		solver.sethand("d");
 		solver.hit();
 		assertEquals(20,solver.getPlayerScore()); //10 +8 +1 ace +1 ace
 	}
@@ -382,8 +382,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("SA");
 		deck.push("HA");
 		solver.setDeck(deck);
-		solver.setHands("p");
-		solver.sethands("d");
+		solver.setHand("p");
+		solver.sethand("d");
 		assertEquals(12,solver.getPlayerScore());
 	}
 	
@@ -423,8 +423,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("S10");
 		deck.push("H9");
 		solver.setDeck(deck);
-		solver.setHands("p");
-		solver.sethands("d");
+		solver.setHand("p");
+		solver.sethand("d");
 		solver.stand();
 		solver.stand();
 		assertEquals("player",solver.checkWin());
@@ -438,8 +438,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("C9");
 		deck.push("S9");
 		solver.setDeck(deck);
-		solver.setHands("p");
-		solver.sethands("d");
+		solver.setHand("p");
+		solver.sethand("d");
 		solver.stand();
 		solver.stand();
 		assertEquals("dealer",solver.checkWin());
