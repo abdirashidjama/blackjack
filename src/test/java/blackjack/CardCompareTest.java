@@ -160,14 +160,14 @@ public class CardCompareTest extends TestCase {
 		Game solver = new Game();
 		ArrayList<String> cards = new ArrayList<String>() {{
 			add("H9");
-			add("AK");
+			add("DK");
 		}};
 		
 		Stack deck = new Stack();
 		deck.push("S6");
 		deck.push("H9");
-		deck.push("AK");
-		deck.push("AK");
+		deck.push("DK");
+		deck.push("CK");
 		deck.push("S9");
 		solver.setDeck(deck);
 		solver.setHands('p');
@@ -182,8 +182,8 @@ public class CardCompareTest extends TestCase {
 		Stack deck = new Stack();
 		deck.push("S6");
 		deck.push("H9");
-		deck.push("AK");
-		deck.push("AK");
+		deck.push("DK");
+		deck.push("DK");
 		deck.push("S9");
 		solver.setDeck(deck);
 		solver.setHands('p');
@@ -201,7 +201,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("H2");
 		deck.push("S4");
 		deck.push("HJ");
-		deck.push("AK");
+		deck.push("DK");
 		deck.push("S9");
 		solver.setDeck(deck);
 		solver.setHands('p');
@@ -220,7 +220,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("HA");
 		deck.push("S6");
 		deck.push("HJ");
-		deck.push("AK");
+		deck.push("CK");
 		deck.push("S9");
 		solver.setDeck(deck);
 		solver.setHands('p');
@@ -299,7 +299,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("C8");
 		deck.push("S10");
 		deck.push("H9");
-		deck.push("A5");
+		deck.push("S5");
 		solver.setDeck(deck);
 		solver.setHands("p");
 		solver.sethands("d");
@@ -308,12 +308,41 @@ public class CardCompareTest extends TestCase {
 		assertEquals(20,solver.getDealerScore()); 
 	}
 	
+	public void testAceas11() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("S2");
+		deck.push("C8");
+		deck.push("S10");
+		deck.push("S7");
+		deck.push("HA");
+		solver.setDeck(deck);
+		solver.setHands("p");
+		solver.sethands("d");
+		assertEquals(18,solver.getPlayerScore()); //ace must be 11 to get 18
+	}
+	
+	public void testAceas1() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("SA");
+		deck.push("C7");
+		deck.push("S10");
+		deck.push("S10");
+		deck.push("H8");
+		solver.setDeck(deck);
+		solver.setHands("p");
+		solver.sethands("d");
+		solver.hit();
+		assertEquals(19,solver.getPlayerScore()); //ace must be one to get 19 otherwise bust 
+	}
+	
 	public void testJQKareTen() {
 		Game solver = new Game();
 		Stack deck = new Stack();
-		deck.push("J");
-		deck.push("K");
-		deck.push("Q");
+		deck.push("AJ");
+		deck.push("HK");
+		deck.push("SQ");
 		solver.setDeck(deck);
 		solver.hit();
 		assertEquals(10, solver.getPlayerScore()); //if player is 10 then Q is worth 10
@@ -322,8 +351,8 @@ public class CardCompareTest extends TestCase {
 		solver.hold();
 		solver.hit();
 		assertEquals(10, solver.getPlayerScore()); //should be 10 from J
-	
 	}
+	
 	
 	
 	public void testcurrentTurn(){ //test if stand function changes whose turn it is
