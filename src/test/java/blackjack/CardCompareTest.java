@@ -308,6 +308,23 @@ public class CardCompareTest extends TestCase {
 		assertEquals(20,solver.getDealerScore()); 
 	}
 	
+	public void testJQKareTen() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("J");
+		deck.push("K");
+		deck.push("Q");
+		solver.setDeck(deck);
+		solver.hit();
+		assertEquals(10, solver.getPlayerScore()); //if player is 10 then Q is worth 10
+		solver.hit();
+		assertEquals(20, solver.getPlayerScore()); //additional 10 points should be added from K
+		solver.hold();
+		solver.hit();
+		assertEquals(10, solver.getPlayerScore()); //should be 10 from J
+	
+	}
+	
 	
 	public void testcurrentTurn(){ //test if stand function changes whose turn it is
 		Game solver = new Game();
