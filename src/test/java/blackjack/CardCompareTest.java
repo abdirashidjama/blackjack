@@ -337,6 +337,50 @@ public class CardCompareTest extends TestCase {
 		assertEquals(19,solver.getPlayerScore()); //ace must be one to get 19 otherwise bust 
 	}
 	
+	public void testAceas11then1() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("S7");
+		deck.push("C7");
+		deck.push("S10");
+		deck.push("S8");
+		deck.push("HA");
+		solver.setDeck(deck);
+		solver.setHands("p");
+		solver.sethands("d");
+		solver.hit();
+		assertEquals(16,solver.getPlayerScore()); //score should be 16 so theres no bust A goes 11 then 1
+	}
+	
+	public void testAceas1and1(){
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("CA");
+		deck.push("SA");
+		deck.push("C7");
+		deck.push("S10");
+		deck.push("S10");
+		deck.push("H8");
+		solver.setDeck(deck);
+		solver.setHands("p");
+		solver.sethands("d");
+		solver.hit();
+		assertEquals(20,solver.getPlayerScore()); //10 +8 +1 ace +1 ace
+	}
+	
+	public void testAceasboth11and1() {
+		Game solver = new Game();
+		Stack deck = new Stack();
+		deck.push("C3");
+		deck.push("S5");
+		deck.push("SA");
+		deck.push("HA");
+		solver.setDeck(deck);
+		solver.setHands("p");
+		solver.sethands("d");
+		assertEquals(12,solver.getPlayerScore());
+	}
+	
 	public void testJQKareTen() {
 		Game solver = new Game();
 		Stack deck = new Stack();
