@@ -192,9 +192,16 @@ public class Game {
 		String hand="";
 		for(int i = 0; i< dealerHand.size(); i++ ) {
 			if(i==dealerHand.size()-1) {
-				hand= hand + dealerHand.get(i);
+				if(i==0 || currentHand == "game over" ) {
+					hand = hand + dealerHand.get(i);
+				}
+				else {
+					hand = hand + "?";
+				}
 			}
-			else { hand= hand + dealerHand.get(i) + " ";}
+			else { 
+				hand= hand + dealerHand.get(i) + " ";
+				}
 		}
 		return hand;
 	}
@@ -221,6 +228,19 @@ public class Game {
 		if(dealerScore > 21) {
 			win = "player";
 			cond = "bust";
+		}
+		
+		//game ended win condtion by points
+		
+		if(currentHand == "game over") { 
+			if(playerScore > dealerScore) {
+				win = "player";
+				cond = "points";
+			}
+			else{
+				win = "dealer";
+				cond = "points";
+			}
 		}
 		this.winner=win;
 		this.condition = cond;
