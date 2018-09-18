@@ -168,11 +168,6 @@ public class CardCompareTest extends TestCase {
 	
 	public void testPlayerBust() {
 		Game solver = new Game();
-		ArrayList<String> cards = new ArrayList<String>() {{
-			add("H9");
-			add("DK");
-		}};
-		
 		Stack<String> deck = new Stack<String>();
 		deck.push("S6");
 		deck.push("H9");
@@ -183,7 +178,6 @@ public class CardCompareTest extends TestCase {
 		solver.setHand("p");
 		solver.setHand("d");
 		solver.hit();
-		//assertEquals(null, solver.handValue()); // bust hands are null
 		assertEquals("dealer", solver.checkWin());
 	}
 	
@@ -200,7 +194,6 @@ public class CardCompareTest extends TestCase {
 		solver.setHand("d");
 		solver.stand();
 		solver.hit();
-		//assertEquals(null, solver.handValue()); // bust hands are null
 		assertEquals("player", solver.checkWin());
 	}
 	
@@ -252,7 +245,7 @@ public class CardCompareTest extends TestCase {
 		solver.setDeck(deck);
 		solver.setHand("p");
 		solver.setHand("d");
-		assertEquals("player blackjack", solver.checkWin());
+		assertEquals("player blackjack", (solver.checkWin() + " " + solver.getCondition()) );
 	}
 	
 	public void testDealerBlackJack() {
@@ -265,7 +258,7 @@ public class CardCompareTest extends TestCase {
 		solver.setDeck(deck);
 		solver.setHand("p");
 		solver.setHand("d");
-		assertEquals("dealer blackjack", solver.checkWin());
+		assertEquals("dealer blackjack", (solver.checkWin()  + " " +  solver.getCondition()));
 	}
 	
 	public void testBetterHand() { //sees if dealer has a better hand then player
@@ -290,7 +283,7 @@ public class CardCompareTest extends TestCase {
 	public void testPlayerScore() {
 		Game solver = new Game();
 		Stack<String> deck = new Stack<String>();
-		deck.push("C8");
+		deck.push("C4");
 		deck.push("S10");
 		deck.push("C2");
 		deck.push("H9");
@@ -299,7 +292,7 @@ public class CardCompareTest extends TestCase {
 		solver.setHand("p");
 		solver.setHand("d");
 		solver.hit();
-		assertEquals(16,solver.getPlayerScore());
+		assertEquals(18,solver.getPlayerScore());
 	}
 	
 	public void testDealerScore() {
@@ -375,6 +368,7 @@ public class CardCompareTest extends TestCase {
 		solver.setHand("p");
 		solver.setHand("d");
 		solver.hit();
+		solver.hit();
 		assertEquals(20,solver.getPlayerScore()); //10 +8 +1 ace +1 ace
 	}
 	
@@ -404,7 +398,7 @@ public class CardCompareTest extends TestCase {
 		assertEquals(20, solver.getPlayerScore()); //additional 10 points should be added from K
 		solver.stand();
 		solver.hit();
-		assertEquals(10, solver.getPlayerScore()); //should be 10 from J
+		assertEquals(10, solver.getDealerScore()); //should be 10 from J
 	}
 	
 	public void testcurrentTurn(){ //test if stand function changes whose turn it is
@@ -428,7 +422,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("H9");
 		solver.setDeck(deck);
 		solver.setHand("p");
-		solver.sethand("d");
+		solver.setHand("d");
 		solver.stand();
 		solver.stand();
 		assertEquals("player",solver.checkWin());

@@ -13,11 +13,15 @@ public class Game {
 	private String currentHand;
 	private int playerScore;
 	private int dealerScore;
+	private String winner;
+	private String condition;
 	
 	public Game() {  //start of game being called
 		this.currentHand="p";  //its players turns
 		this.playerScore = 0;
 		this.dealerScore = 0;
+		this.winner = "n/a";
+		this.condition = "";
 	}
 	
 	public String start(String mode) {
@@ -60,6 +64,7 @@ public class Game {
 		}
 		return mode;
 	}
+	public String getCondition() {return condition;}
 	public String getCurrentTurn() {return currentHand;}
 	public Stack<String> getDeck() {return deck;}
 	public Stack<String> shuffleDeck(Stack<String> d) { 
@@ -75,20 +80,25 @@ public class Game {
 		if(h == "p") {
 			playerHand.add(deck.pop());
 			playerHand.add(deck.pop());
+			this.getPlayerScore();
 		}
 		else {
 			dealerHand.add(deck.pop());
 			dealerHand.add(deck.pop());
+			this.getDealerScore();
 		}
 	}
 	public void hit() {
 		if(currentHand == "p") {
 			playerHand.add(deck.pop());
+			this.getPlayerScore();
 		}
 		else if(currentHand == "d"){
 			dealerHand.add(deck.pop());
+			this.getDealerScore();
 		}
-		else {}
+	
+		this.checkWin();
 	}
 	
 	public void stand() {
@@ -98,6 +108,8 @@ public class Game {
 		
 		else {
 			currentHand = "game over";
+			this.getPlayerScore();
+			this.checkWin();
 		}
 	}
 	
@@ -114,6 +126,7 @@ public class Game {
 			case "Q": score=score+10;
 			break;
 			case "K": score=score+10;
+			break;
 			default: score = score + Integer.valueOf(card);
 			break;
 			}
@@ -128,7 +141,7 @@ public class Game {
 				score = score + 1;
 			}
 		}
-		
+		this.playerScore= score;
 		return score;
 	}
 	
@@ -160,6 +173,7 @@ public class Game {
 				score = score + 1;
 			}
 		}
+		this.dealerScore = score;
 		return score;
 	}
 	
@@ -183,5 +197,33 @@ public class Game {
 			else { hand= hand + dealerHand.get(i) + " ";}
 		}
 		return hand;
+	}
+	
+	public String checkWin(){  //sets winner and they condition they won by
+		//blackjack win conditions
+		String win = "n/a";
+		String cond = "";
+		if(dealerScore == 21) {
+			win = "dealer";
+			cond = "blackjack";
+		}
+		if(playerScore == 21) {
+			win = "player";
+			cond = "blackjack";
+		}
+		
+		//a player bust winner condition
+		if(playerScore > 21) {
+			win = "dealer";
+			cond = "bust";
+		}
+		
+		if(dealerScore > 21) {
+			win = "player";
+			cond = "bust";
+		}
+		this.winner=win;
+		this.condition = cond;
+		return winner;
 	}
 }
