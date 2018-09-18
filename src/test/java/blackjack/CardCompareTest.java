@@ -10,12 +10,12 @@ import java.util.*;
 public class CardCompareTest extends TestCase {
 	public void testConsoleInput() {
 		Game solver = new Game();
-		solver.start('c');
+		assertEquals("c",solver.start("c"));
 	}
 	
 	public void testFileInput() {
 		Game solver = new Game();
-		assertFalse(null,solver.start('f'));
+		assertEquals("f",solver.start("f"));
 	}
 	
 	public void testInitPlayerDisplay() {
@@ -125,7 +125,7 @@ public class CardCompareTest extends TestCase {
 	
 	public void test52cards(){
 		Game solver = new Game();
-		solver.start('c');
+		solver.start("c");
 		assertEquals(52, solver.getDeck().size()); //testing list to make sure it has 52 cards
 	}
 	

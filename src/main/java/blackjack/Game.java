@@ -1,7 +1,9 @@
 package blackjack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Stack;
 
 public class Game {
@@ -10,6 +12,52 @@ public class Game {
 	private List<String> dealerHand = new ArrayList<String>();
 	private String currentHand;
 	
+	public String start(String mode) {
+		if(mode == "c") {  //generates cards calls method to deal with player console input
+			String suite = null;
+			String value;
+			String card;
+			for (int i=0; i<=3; i++) {
+				switch(i) {
+				case 0: suite = "H";
+				break;
+				case 1: suite = "S";
+				break;
+				case 2: suite = "D";
+				break;
+				case 3: suite = "C";
+				break;
+				}
+				for (int j=1; j<=13; j++) {
+					switch(j) {
+					case 1: value = "A";
+					case 11: value = "J";
+					break;
+					case 12: value = "Q";
+					break;
+					case 13: value = "K";
+					default: value = String.valueOf(j);
+					break;
+					}
+					card = suite + value;
+					deck.push(card);
+				}
+			}
+		}
+		else {
+			
+		}
+		return mode;
+	}
+	public Stack<String> getDeck() {return deck;}
+	public Stack<String> shuffleDeck(Stack<String> d) { 
+		List<String> de = new ArrayList<String>(d);
+		Collections.shuffle(de, new Random());
+		Stack<String> deck = new Stack<String>();
+		deck.addAll(d);
+		return deck;
+		
+	}
 	public void setDeck(Stack<String> d) {deck = d; };
 	public void setHand(String h) {
 		if(h == "p") {
