@@ -50,6 +50,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("A3");
 		deck.push("A4");
 		deck.push("A5");
+		solver.setDeck(deck);
 		solver.setHand("p");
 		solver.hit();
 		solver.stand();
@@ -58,55 +59,56 @@ public class CardCompareTest extends TestCase {
 	
 	public void testEndTurnDealerDisplay() {
 		Game solver = new Game();
-		Stack<String><String> deck = new Stack<String>();
+		Stack<String> deck = new Stack<String>();
 		deck.push("S2");
-		deck.push("A2");
-		deck.push("A3");
+		deck.push("D2");
+		deck.push("H3");
 		deck.push("A4");
 		deck.push("A5");
+		solver.setDeck(deck);
 		solver.setHand("p");
 		solver.setHand("d");
-		solver.hit();
 		solver.stand();
-		assertEquals("A3 A2 S2", solver.displayDealerHand());
+		solver.hit();
+		assertEquals("H3 D2 S2", solver.displayDealerHand());
 	}
 	
 	public void testhit() {
 		Game solver = new Game();
-		Stack<String><String> deck = new Stack<String>();
+		Stack<String> deck = new Stack<String>();
 		deck.push("H7");
 		solver.setDeck(deck);
 		solver.hit();
-		assertEquals(7, solver.handValue());	
+		assertEquals("H7", solver.displayPlayerHand());	
 	}
 	public void testmultihit() {
 		Game solver = new Game();
 		Stack<String> deck = new Stack<String>();
-		deck.push("A2");
-		deck.push("A3");
-		deck.push("A4");
-		deck.push("A5");
+		deck.push("C2");
+		deck.push("D3");
+		deck.push("H4");
+		deck.push("S5");
 		solver.setDeck(deck);
 		solver.hit();
 		solver.hit();
 		solver.hit();
 		solver.hit();
-		assertEquals(14, solver.handValue());	
+		assertEquals("S5 H4 D3 C2", solver.displayPlayerHand());	
 	}
 	public void testdealerMultihit(){
 		Game solver = new Game();
 		Stack<String> deck = new Stack<String>();
-		deck.push("A2");
-		deck.push("A3");
-		deck.push("A4");
-		deck.push("A5");
+		deck.push("C2");
+		deck.push("D3");
+		deck.push("H4");
+		deck.push("S5");
 		solver.setDeck(deck);
 		solver.stand();
 		solver.hit();
 		solver.hit();
 		solver.hit();
 		solver.hit();
-		assertEquals(14, solver.handValue());	
+		assertEquals("S5 H4 D3 C2", solver.displayDealerHand());
 	}
 	
 	public void teststand() {
@@ -120,7 +122,7 @@ public class CardCompareTest extends TestCase {
 		solver.setHand("p");
 		solver.setHand("d");
 		solver.stand();
-		assertEquals("dealer", solver.getcurrentTurn()); //turn should change to dealer after stand
+		assertEquals("d", solver.getCurrentTurn()); //turn should change to dealer after stand
 	}
 	
 	public void test52cards(){
@@ -161,7 +163,7 @@ public class CardCompareTest extends TestCase {
 				deck.push(card);
 			}
 		}
-		assertEquals(deck, solver.shuffle(deck));	
+		assertEquals(deck, solver.shuffleDeck(deck));	
 	}
 	
 	public void testPlayerBust() {
@@ -295,7 +297,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("A5");
 		solver.setDeck(deck);
 		solver.setHand("p");
-		solver.sethand("d");
+		solver.setHand("d");
 		solver.hit();
 		assertEquals(16,solver.getPlayerScore());
 	}
@@ -309,8 +311,8 @@ public class CardCompareTest extends TestCase {
 		deck.push("H9");
 		deck.push("S5");
 		solver.setDeck(deck);
-		solver.setHands("p");
-		solver.sethands("d");
+		solver.setHand("p");
+		solver.setHand("d");
 		solver.stand();
 		solver.hit();
 		assertEquals(20,solver.getDealerScore()); 
@@ -326,7 +328,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("HA");
 		solver.setDeck(deck);
 		solver.setHand("p");
-		solver.sethand("d");
+		solver.setHand("d");
 		assertEquals(18,solver.getPlayerScore()); //ace must be 11 to get 18
 	}
 	
@@ -340,7 +342,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("H8");
 		solver.setDeck(deck);
 		solver.setHand("p");
-		solver.sethand("d");
+		solver.setHand("d");
 		solver.hit();
 		assertEquals(19,solver.getPlayerScore()); //ace must be one to get 19 otherwise bust 
 	}
@@ -355,7 +357,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("HA");
 		solver.setDeck(deck);
 		solver.setHand("p");
-		solver.sethand("d");
+		solver.setHand("d");
 		solver.hit();
 		assertEquals(16,solver.getPlayerScore()); //score should be 16 so theres no bust A goes 11 then 1
 	}
@@ -371,7 +373,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("H8");
 		solver.setDeck(deck);
 		solver.setHand("p");
-		solver.sethand("d");
+		solver.setHand("d");
 		solver.hit();
 		assertEquals(20,solver.getPlayerScore()); //10 +8 +1 ace +1 ace
 	}
@@ -385,14 +387,14 @@ public class CardCompareTest extends TestCase {
 		deck.push("HA");
 		solver.setDeck(deck);
 		solver.setHand("p");
-		solver.sethand("d");
+		solver.setHand("d");
 		assertEquals(12,solver.getPlayerScore());
 	}
 	
 	public void testJQKareTen() {
 		Game solver = new Game();
 		Stack<String> deck = new Stack<String>();
-		deck.push("AJ");
+		deck.push("HJ");
 		deck.push("HK");
 		deck.push("SQ");
 		solver.setDeck(deck);
@@ -400,20 +402,20 @@ public class CardCompareTest extends TestCase {
 		assertEquals(10, solver.getPlayerScore()); //if player is 10 then Q is worth 10
 		solver.hit();
 		assertEquals(20, solver.getPlayerScore()); //additional 10 points should be added from K
-		solver.hold();
+		solver.stand();
 		solver.hit();
 		assertEquals(10, solver.getPlayerScore()); //should be 10 from J
 	}
 	
 	public void testcurrentTurn(){ //test if stand function changes whose turn it is
 		Game solver = new Game();
-		assertEquals("player", solver.getcurrentTurn());  //initially should be player
+		assertEquals("p", solver.getCurrentTurn());  //initially should be player
 		Stack<String> deck = new Stack<String>();
 		deck.push("H8");
 		solver.setDeck(deck);
 		solver.hit();
 		solver.stand();
-		assertEquals("dealer", solver.getcurrentTurn());  // should change to dealer after hold
+		assertEquals("d", solver.getCurrentTurn());  // should change to dealer after hold
 	
 	}
 	
@@ -441,7 +443,7 @@ public class CardCompareTest extends TestCase {
 		deck.push("S9");
 		solver.setDeck(deck);
 		solver.setHand("p");
-		solver.sethand("d");
+		solver.setHand("d");
 		solver.stand();
 		solver.stand();
 		assertEquals("dealer",solver.checkWin());
