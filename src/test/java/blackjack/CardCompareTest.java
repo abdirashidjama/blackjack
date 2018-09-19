@@ -221,10 +221,11 @@ public class CardCompareTest extends TestCase {
 	public void testDealerSoft17() {
 		Game solver = new Game();
 		Stack<String> deck = new Stack<String>();
+		deck.push("S2");
 		deck.push("H2");
+		deck.push("S2");
 		deck.push("HA");
-		deck.push("S6");
-		deck.push("HJ");
+		deck.push("H4");
 		deck.push("CK");
 		deck.push("S9");
 		solver.setDeck(deck);
@@ -234,7 +235,7 @@ public class CardCompareTest extends TestCase {
 		solver.hit();
 		solver.dealerPlay();
 		solver.stand();
-		assertEquals("HJ S6 HA H2", solver.displayDealerHand());
+		assertEquals("H4 HA S2 H2", solver.displayDealerHand());
 	}
 	
 	public void testPlayerBlackJack() {

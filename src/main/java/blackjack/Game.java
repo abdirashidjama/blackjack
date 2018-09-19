@@ -205,7 +205,21 @@ public class Game {
 		}
 		return hand;
 	}
-	
+	public void dealerPlay() {
+		boolean aces = false; //to detect if there is aces
+		this.displayDealerHand();
+		if(dealerHand.contains("HA") || dealerHand.contains("SA") || dealerHand.contains("CA") || dealerHand.contains("DA")) {
+				aces = true;
+		}
+		
+		if(this.getDealerScore() <= 16) {
+			this.hit();
+		}
+		else if(this.getDealerScore() == 17 && aces == true) {
+			this.hit();
+		}
+		else {this.stand();}
+	}
 	public String checkWin(){  //sets winner and they condition they won by
 		//blackjack win conditions
 		String win = "n/a";
