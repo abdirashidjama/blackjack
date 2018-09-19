@@ -165,7 +165,9 @@ public class CardCompareTest extends TestCase {
 				deck.push(card);
 			}
 		}
-		assertEquals(deck, solver.shuffleDeck(deck));	
+		String unshuffled =deck.toString();
+		String shuffled = solver.shuffleDeck(deck).toString();
+		assertEquals(false, shuffled.equals(unshuffled));	
 	}
 	
 	public void testPlayerBust() {

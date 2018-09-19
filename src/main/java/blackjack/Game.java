@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Stack;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Game {
 	private Stack<String> deck = new Stack<String>();
@@ -20,13 +24,13 @@ public class Game {
 		this.currentHand="p";  //its players turns
 		this.playerScore = 0;
 		this.dealerScore = 0;
-		this.winner = "n/a";
+		this.winner = "none";
 		this.condition = "";
 	}
 	
 	public String start(String mode) {
 		currentHand = "p"; //its player turn first
-		if(mode == "c") {  //generates cards calls method to deal with player console input
+		if(mode.equals("c")) {  //generates cards calls method to deal with player console input
 			String suite = null;
 			String value;
 			String card;
@@ -55,9 +59,10 @@ public class Game {
 					break;
 					}
 					card = suite + value;
-					deck.push(card);
+					this.deck.push(card);
 				}
 			}
+			return "c";
 		}
 		else {
 			
@@ -69,9 +74,9 @@ public class Game {
 	public Stack<String> getDeck() {return deck;}
 	public Stack<String> shuffleDeck(Stack<String> d) { 
 		List<String> de = new ArrayList<String>(d);
-		Collections.shuffle(de, new Random());
+		Collections.shuffle(de);
 		Stack<String> deck = new Stack<String>();
-		deck.addAll(d);
+		deck.addAll(de);
 		return deck;
 		
 	}
@@ -205,7 +210,8 @@ public class Game {
 		}
 		return hand;
 	}
-	public void dealerPlay() {
+	public String dealerPlay() {
+		String move = "";
 		boolean aces = false; //to detect if there is aces
 		this.displayDealerHand();
 		if(dealerHand.contains("HA") || dealerHand.contains("SA") || dealerHand.contains("CA") || dealerHand.contains("DA")) {
@@ -214,15 +220,21 @@ public class Game {
 		
 		if(this.getDealerScore() <= 16) {
 			this.hit();
+			move ="dealer hits";
 		}
 		else if(this.getDealerScore() == 17 && aces == true) {
 			this.hit();
+			move = "dealer hits";
 		}
-		else {this.stand();}
+		else {
+			this.stand();
+			move = "dealer stands";
+			}
+		return move;
 	}
 	public String checkWin(){  //sets winner and they condition they won by
 		//blackjack win conditions
-		String win = "n/a";
+		String win = "none";
 		String cond = "";
 		if(dealerScore == 21) {
 			win = "dealer";
@@ -244,7 +256,7 @@ public class Game {
 			cond = "bust";
 		}
 		
-		//game ended win condtion by points
+		//game ended win condition by points
 		
 		if(currentHand == "game over") { 
 			if(playerScore > dealerScore) {
@@ -259,6 +271,58 @@ public class Game {
 		this.winner=win;
 		this.condition = cond;
 		return winner;
+	}
+	
+	public static void main(String args[]) {
+		Game model= new Game(); //start game model
+		Scanner br = new Scanner(System.in);
+		System.out.println("Enter (f) for file input or (c) console input: ");
+		String mode = null;
+		mode = br.nextLine();
+		model.start(mode);//starts game chooses mode sets up deck accordingly
+		model.setDeck(model.shuffleDeck(model.getDeck())); //gets and shuffle deck
+		if (mode.equals("c")) {
+			System.out.println("system is still work after mode == c");
+			while(model.checkWin().equals("none")) {
+				model.setHand("p");       //seting player and dealer hands
+				model.setHand("d");
+				System.out.println("Playerhand:  " + model.displayPlayerHand());   //printing dealer hands
+				System.out.println("Dealerhand:  " + model.displayDealerHand());   // printing player hands
+				if(model.checkWin() != "none") {break;}
+				while(model.getCurrentTurn().equals("p")){
+					System.out.println("options: "
+							+ "(h) hit "
+							+ "(s) stand ");
+					String choice = "";
+					choice = br.nextLine();   //taking users choice
+					
+					if(choice.equals("h")) {
+						model.hit();
+						System.out.println("Playerhand:  " + model.displayPlayerHand());
+						System.out.println("Dealerhand:  " + model.displayDealerHand());
+						if(model.checkWin() != "none") {break;}    //breaks game if their is a winner
+					}
+					else if(choice.equals("s")) {
+						model.stand();
+						System.out.println("Playerhand:  " + model.displayPlayerHand());
+						System.out.println("Dealerhand:  " + model.displayDealerHand());
+						break;
+					}
+				}
+				while(model.getCurrentTurn().equals("d") && model.checkWin() == "none"){
+					String move = "";
+					model.dealerPlay();
+					System.out.println("Dealer plays");
+					System.out.println("Playerhand:  " + model.displayPlayerHand());
+					System.out.println("Playerhand:  " + model.displayDealerHand());
+					if(move.equals("dealer stands")) {
+						break;
+					}
+					if(model.checkWin() != "none") {break;}
+				}
+			}
+			System.out.println("Winner is  " + model.checkWin() + " " + model.getCondition());
+		}
 	}
 	
 	
