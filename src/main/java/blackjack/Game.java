@@ -260,4 +260,6 @@ public class Game {
 		this.condition = cond;
 		return winner;
 	}
+	
+	
 }
