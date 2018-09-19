@@ -16,6 +16,22 @@ public class CardCompareTest extends TestCase {
 	public void testFileInput() {
 		Game solver = new Game();
 		assertEquals("f",solver.start("f"));
+		
+	}
+	
+	public void playFromFile() {
+		Game solver = new Game();
+		String fileName = "PlayerByPoints";
+		String results = 
+				"Player receives the 10 of Spades and 3 of Diamonds" +
+				"Dealer	receives Queen of Spades and 5 of Clubs\n" + 
+				"Player hits and gets 5 of Hearts\n" + 
+				"Player	hits	 and gets Ace of Spades\n" + 
+				"Player	stands\n" + 
+				"Dealer hits gets Ace of	Clubs\n" + 
+				"Dealer	hits gets 2 of Diamonds	\n" + 
+				"Player	wins";
+		assertEquals(results, solver.fileInput("PlayerByPoints"));
 	}
 	
 	public void testInitPlayerDisplay() {
@@ -428,7 +444,6 @@ public class CardCompareTest extends TestCase {
 		solver.stand();
 		assertEquals("dealer",solver.checkWin());
 	} 
-	
-	
+
 
 }
