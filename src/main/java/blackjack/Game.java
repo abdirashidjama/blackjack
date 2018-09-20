@@ -9,9 +9,14 @@ import java.util.Stack;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 
 public class Game {
-	private Stack<String> deck = new Stack<String>();
+	private Stack<String> deck = new Stack<String>(); 
 	private List<String> playerHand = new ArrayList<String>() ;
 	private List<String> dealerHand = new ArrayList<String>();
 	private String currentHand;
@@ -19,6 +24,7 @@ public class Game {
 	private int dealerScore;
 	private String winner;
 	private String condition;
+	private Stack <String> allCards = new Stack<String>(); //stack that contains all possible cards
 	
 	public Game() {  //start of game being called
 		this.currentHand="p";  //its players turns
@@ -26,42 +32,43 @@ public class Game {
 		this.dealerScore = 0;
 		this.winner = "none";
 		this.condition = "";
+		String suite = null;
+		String value;
+		String card;
+		for (int i=0; i<=3; i++) {
+			switch(i) {
+			case 0: suite = "H";
+			break;
+			case 1: suite = "S";
+			break;
+			case 2: suite = "D";
+			break;
+			case 3: suite = "C";
+			break;
+			}
+			for (int j=1; j<=13; j++) {
+				switch(j) {
+				case 1: value = "A";
+				break;
+				case 11: value = "J";
+				break;
+				case 12: value = "Q";
+				break;
+				case 13: value = "K";
+				break;
+				default: value = String.valueOf(j);
+				break;
+				}
+				card = suite + value;
+				this.allCards.push(card);
+			}
+		}
 	}
 	
 	public String start(String mode) {
 		currentHand = "p"; //its player turn first
 		if(mode.equals("c")) {  //generates cards calls method to deal with player console input
-			String suite = null;
-			String value;
-			String card;
-			for (int i=0; i<=3; i++) {
-				switch(i) {
-				case 0: suite = "H";
-				break;
-				case 1: suite = "S";
-				break;
-				case 2: suite = "D";
-				break;
-				case 3: suite = "C";
-				break;
-				}
-				for (int j=1; j<=13; j++) {
-					switch(j) {
-					case 1: value = "A";
-					break;
-					case 11: value = "J";
-					break;
-					case 12: value = "Q";
-					break;
-					case 13: value = "K";
-					break;
-					default: value = String.valueOf(j);
-					break;
-					}
-					card = suite + value;
-					this.deck.push(card);
-				}
-			}
+			deck = allCards;
 			return "c";
 		}
 		else {
@@ -135,7 +142,6 @@ public class Game {
 			default: score = score + Integer.valueOf(card);
 			break;
 			}
-			
 		}
 		
 		for(int i = 0; i< aces; i++) {
@@ -273,6 +279,52 @@ public class Game {
 		return winner;
 	}
 	
+	public String fileInput(String filename) {
+		
+		String results=null;
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource(filename).getFile());
+		FileReader freader = null;
+		BufferedReader breader = null;
+		Stack <String> deck = new Stack<String>();
+		try { 
+			freader = new FileReader(file);
+			breader = new BufferedReader(freader);
+			String currentLine;
+			String commandLine = breader.readLine();
+			String[] commands = commandLine.split("\\s+");
+			this.deck.push(commands[1]);
+			this.deck.push(commands[0]);
+			this.setHand("p");
+			this.deck.push(commands[3]);
+			this.deck.push(commands[2]);
+			this.setHand("d");
+			results = "player receives cards " + commands[0] + " and " + commands[1] + "\n";
+			results += "dealer receives cards " + commands[2] + " and " + commands[3] + "\n";
+			int i = 4;
+			while(i < commands.length) {
+				if(allCards.contains(commands[i])) {
+					this.deck.push(commands[i]);
+					this.hit();
+					results += this.getCurrentTurn() + " hits and gets " + commands[i] + "\n";
+				}
+				else if(commands[i].equals("S")) {
+					results += this.getCurrentTurn() + " stands" + "\n";
+					this.stand();
+				}
+				i++;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		results += "player has "+ this.getPlayerScore() + "pts\n";
+		results += "dealer has "+ this.getDealerScore() + "pts\n";
+		results =results + ("Winner is " + this.checkWin() + " by " + this.getCondition());
+		
+		return results;
+	}
+	
 	public static void main(String args[]) {
 		Game model= new Game(); //start game model
 		Scanner br = new Scanner(System.in);
@@ -284,7 +336,7 @@ public class Game {
 		if (mode.equals("c")) {
 			System.out.println("system is still work after mode == c");
 			while(model.checkWin().equals("none")) {
-				model.setHand("p");       //seting player and dealer hands
+				model.setHand("p");       //setting player and dealer hands
 				model.setHand("d");
 				System.out.println("Playerhand:  " + model.displayPlayerHand());   //printing dealer hands
 				System.out.println("Dealerhand:  " + model.displayDealerHand());   // printing player hands
@@ -324,6 +376,5 @@ public class Game {
 			System.out.println("Winner is  " + model.checkWin() + " " + model.getCondition());
 		}
 	}
-	
 	
 }

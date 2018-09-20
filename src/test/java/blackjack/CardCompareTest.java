@@ -19,19 +19,23 @@ public class CardCompareTest extends TestCase {
 		
 	}
 	
-	public void playFromFile() {
+	public void testplayFromFile() {
 		Game solver = new Game();
-		String fileName = "PlayerByPoints";
-		String results = 
-				"Player receives the 10 of Spades and 3 of Diamonds" +
-				"Dealer	receives Queen of Spades and 5 of Clubs\n" + 
-				"Player hits and gets 5 of Hearts\n" + 
-				"Player	hits	 and gets Ace of Spades\n" + 
-				"Player	stands\n" + 
-				"Dealer hits gets Ace of	Clubs\n" + 
-				"Dealer	hits gets 2 of Diamonds	\n" + 
-				"Player	wins";
-		assertEquals(results, solver.fileInput("PlayerByPoints"));
+		//String fileName = "resources/PlayerByPoints.xml";
+		String results = "player receives cards S10 and D3\n" +
+				"dealer receives cards CQ and C5\n" + 
+				"p hits and gets H5\n" + 
+				"p hits and gets SA\n" + 
+				"p stands\n" + 
+				"d hits and gets CA\n" + 
+				"d hits and gets D2\n" +
+				"d stands\n" +
+				"player has 19pts\n"+
+				"dealer has 18pts\n"+
+				"Winner is player by points";
+		String test = solver.fileInput("PlayerByPoints.xml");
+		
+		assertEquals(results, test);
 	}
 	
 	public void testInitPlayerDisplay() {
