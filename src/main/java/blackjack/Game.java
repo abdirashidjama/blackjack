@@ -27,7 +27,7 @@ public class Game {
 	private Stack <String> allCards = new Stack<String>(); //stack that contains all possible cards
 	
 	public Game() {  //start of game being called
-		this.currentHand="p";  //its players turns
+		this.currentHand="player";  //its players turns
 		this.playerScore = 0;
 		this.dealerScore = 0;
 		this.winner = "none";
@@ -66,7 +66,7 @@ public class Game {
 	}
 	
 	public String start(String mode) {
-		currentHand = "p"; //its player turn first
+		currentHand = "player"; //its player turn first
 		if(mode.equals("c")) {  //generates cards calls method to deal with player console input
 			deck = allCards;
 			return "c";
@@ -89,7 +89,7 @@ public class Game {
 	}
 	public void setDeck(Stack<String> d) {deck = d; };
 	public void setHand(String h) {
-		if(h == "p") {
+		if(h == "player") {
 			playerHand.add(deck.pop());
 			playerHand.add(deck.pop());
 			this.getPlayerScore();
@@ -101,11 +101,11 @@ public class Game {
 		}
 	}
 	public void hit() {
-		if(currentHand == "p") {
+		if(currentHand == "player") {
 			playerHand.add(deck.pop());
 			this.getPlayerScore();
 		}
-		else if(currentHand == "d"){
+		else if(currentHand == "dealer"){
 			dealerHand.add(deck.pop());
 			this.getDealerScore();
 		}
@@ -114,8 +114,8 @@ public class Game {
 	}
 	
 	public void stand() {
-		if(currentHand=="p") {
-			currentHand = "d"; //its now dealers turn
+		if(currentHand=="player") {
+			currentHand = "dealer"; //its now dealers turn
 		}
 		
 		else {
@@ -289,12 +289,12 @@ public class Game {
 		model.start("c");//starts game chooses mode sets up deck accordingly
 		model.setDeck(model.shuffleDeck(model.getDeck())); //gets and shuffle deck
 		while(model.checkWin().equals("none")) {
-			model.setHand("p");       //setting player and dealer hands
-			model.setHand("d");
+			model.setHand("player");       //setting player and dealer hands
+			model.setHand("dealer");
 			System.out.println("Playerhand:  " + model.displayPlayerHand());   //printing dealer hands
 			System.out.println("Dealerhand:  " + model.displayDealerHand());   // printing player hands
 			if(model.checkWin() != "none") {break;}
-			while(model.getCurrentTurn().equals("p")){
+			while(model.getCurrentTurn().equals("player")){
 				System.out.println("options: "
 						+ "(h) hit "
 						+ "(s) stand ");
@@ -314,7 +314,7 @@ public class Game {
 					break;
 				}
 			}
-			while(model.getCurrentTurn().equals("d") && model.checkWin() == "none"){
+			while(model.getCurrentTurn().equals("dealer") && model.checkWin() == "none"){
 				String move = model.dealerPlay();
 				System.out.println(move);
 				System.out.println("Playerhand:  " + model.displayPlayerHand());
@@ -346,18 +346,18 @@ public class Game {
 			String[] commands = commandLine.split("\\s+");
 			this.deck.push(commands[1]);
 			this.deck.push(commands[0]);
-			this.setHand("p");
+			this.setHand("player");
 			this.deck.push(commands[3]);
 			this.deck.push(commands[2]);
-			this.setHand("d");
+			this.setHand("dealer");
 			results = "player receives cards " + commands[0] + " and " + commands[1] + "\n";
 			results += "dealer receives cards " + commands[2] + " and " + commands[3] + "\n";
 			int i = 4;
 			while(i < commands.length) {
 				if(allCards.contains(commands[i])) {
 					this.deck.push(commands[i]);
-					this.hit();
 					results += this.getCurrentTurn() + " hits and gets " + commands[i] + "\n";
+					this.hit();
 				}
 				else if(commands[i].equals("S")) {
 					results += this.getCurrentTurn() + " stands" + "\n";
@@ -372,7 +372,6 @@ public class Game {
 		results += "player has "+ this.getPlayerScore() + "pts\n";
 		results += "dealer has "+ this.getDealerScore() + "pts\n";
 		results =results + ("Winner is " + this.checkWin() + " by " + this.getCondition());
-		
 		return results;
 	}
 	
