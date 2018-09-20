@@ -243,28 +243,32 @@ public class Game {
 		String win = "none";
 		String cond = "";
 		if(dealerScore == 21) {
+			this.currentHand = "game over";
 			win = "dealer";
 			cond = "blackjack";
 		}
-		if(playerScore == 21) {
+		else if(playerScore == 21) {
+			this.currentHand = "game over";
 			win = "player";
 			cond = "blackjack";
 		}
 		
 		//a player bust winner condition
-		if(playerScore > 21) {
+		else if(playerScore > 21) {
+			this.currentHand = "game over";
 			win = "dealer";
 			cond = "bust";
 		}
 		
-		if(dealerScore > 21) {
+		else if(dealerScore > 21) {
+			this.currentHand = "game over";
 			win = "player";
 			cond = "bust";
 		}
 		
 		//game ended win condition by points
 		
-		if(currentHand == "game over") { 
+		else if(currentHand == "game over" ) { 
 			if(playerScore > dealerScore) {
 				win = "player";
 				cond = "points";
@@ -277,6 +281,53 @@ public class Game {
 		this.winner=win;
 		this.condition = cond;
 		return winner;
+	}
+	
+	public void consoleMode() {
+		Scanner br = new Scanner(System.in);
+		Game model= new Game(); //start game model
+		model.start("c");//starts game chooses mode sets up deck accordingly
+		model.setDeck(model.shuffleDeck(model.getDeck())); //gets and shuffle deck
+		while(model.checkWin().equals("none")) {
+			model.setHand("p");       //setting player and dealer hands
+			model.setHand("d");
+			System.out.println("Playerhand:  " + model.displayPlayerHand());   //printing dealer hands
+			System.out.println("Dealerhand:  " + model.displayDealerHand());   // printing player hands
+			if(model.checkWin() != "none") {break;}
+			while(model.getCurrentTurn().equals("p")){
+				System.out.println("options: "
+						+ "(h) hit "
+						+ "(s) stand ");
+				String choice = "";
+				choice = br.nextLine();   //taking users choice
+				
+				if(choice.equals("h")) {
+					model.hit();
+					System.out.println("Playerhand:  " + model.displayPlayerHand());
+					System.out.println("Dealerhand:  " + model.displayDealerHand());
+					if(model.checkWin() != "none") {break;}    //breaks game if their is a winner
+				}
+				else if(choice.equals("s")) {
+					model.stand();
+					System.out.println("Playerhand:  " + model.displayPlayerHand());
+					System.out.println("Dealerhand:  " + model.displayDealerHand());
+					break;
+				}
+			}
+			while(model.getCurrentTurn().equals("d") && model.checkWin() == "none"){
+				String move = model.dealerPlay();
+				System.out.println(move);
+				System.out.println("Playerhand:  " + model.displayPlayerHand());
+				System.out.println("Dealerhand:  " + model.displayDealerHand());
+				if(move.equals("dealer stands")) {
+					break;
+				}
+				if(model.checkWin() != "none") {break;}
+			}
+		}
+		System.out.println("final Playerhand:  " + model.displayPlayerHand());
+		System.out.println("final Dealerrhand:  " + model.displayDealerHand());
+		System.out.println("Winner is " + model.checkWin() + " " + model.getCondition());
 	}
 	
 	public String fileInput(String filename) {
@@ -326,55 +377,21 @@ public class Game {
 	}
 	
 	public static void main(String args[]) {
-		Game model= new Game(); //start game model
+		Game model= new Game();
 		Scanner br = new Scanner(System.in);
 		System.out.println("Enter (f) for file input or (c) console input: ");
 		String mode = null;
 		mode = br.nextLine();
-		model.start(mode);//starts game chooses mode sets up deck accordingly
-		model.setDeck(model.shuffleDeck(model.getDeck())); //gets and shuffle deck
 		if (mode.equals("c")) {
-			System.out.println("system is still work after mode == c");
-			while(model.checkWin().equals("none")) {
-				model.setHand("p");       //setting player and dealer hands
-				model.setHand("d");
-				System.out.println("Playerhand:  " + model.displayPlayerHand());   //printing dealer hands
-				System.out.println("Dealerhand:  " + model.displayDealerHand());   // printing player hands
-				if(model.checkWin() != "none") {break;}
-				while(model.getCurrentTurn().equals("p")){
-					System.out.println("options: "
-							+ "(h) hit "
-							+ "(s) stand ");
-					String choice = "";
-					choice = br.nextLine();   //taking users choice
-					
-					if(choice.equals("h")) {
-						model.hit();
-						System.out.println("Playerhand:  " + model.displayPlayerHand());
-						System.out.println("Dealerhand:  " + model.displayDealerHand());
-						if(model.checkWin() != "none") {break;}    //breaks game if their is a winner
-					}
-					else if(choice.equals("s")) {
-						model.stand();
-						System.out.println("Playerhand:  " + model.displayPlayerHand());
-						System.out.println("Dealerhand:  " + model.displayDealerHand());
-						break;
-					}
-				}
-				while(model.getCurrentTurn().equals("d") && model.checkWin() == "none"){
-					String move = "";
-					model.dealerPlay();
-					System.out.println("Dealer plays");
-					System.out.println("Playerhand:  " + model.displayPlayerHand());
-					System.out.println("Playerhand:  " + model.displayDealerHand());
-					if(move.equals("dealer stands")) {
-						break;
-					}
-					if(model.checkWin() != "none") {break;}
-				}
-			}
-			System.out.println("Winner is  " + model.checkWin() + " " + model.getCondition());
+			model.consoleMode();
 		}
+		else if(mode.equals("f")) {
+			System.out.println("Enter file name: \n");
+			String fileName = br.nextLine();
+			System.out.println(model.fileInput(fileName));
+			br.close();
+		}
+		else {}
 	}
 	
 }
